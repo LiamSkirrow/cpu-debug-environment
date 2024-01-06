@@ -12,3 +12,6 @@ poke [addr, val] | Set the value at memory location [addr] with value [val]  |
 ss | single-step CPU instructions, one at a time  | 
 run [addr] | run the program indefinitely, starting address [addr]  | 
 halt | halt the execution of the processor  | 
+
+### TODO
+- at the top level include a decoder that maps the FPGA's onboard peripherals into memory. So the CPU can access the peripherals via a memory map. For example, assign a given byte in memory to the 8 LEDs onboard the ARTY A7 board so that the CPU can set/reset them arbitrarily.
