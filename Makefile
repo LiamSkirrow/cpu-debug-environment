@@ -15,7 +15,7 @@ ifeq ($(SYNTAX), 1)
 	$(CC) -Wno-fatal --cc $(SRC)wrapper.v $(TARGET_SRC)top.v $(TARGET_SRC)alu.v $(TARGET_SRC)registerfile.v --lint-only $(ARGS)
 else
 ifeq ($(WAVES), 1)
-	gtkwave wrapper.fst -a $(CONF)wrapper.gtkw
+	gtkwave wrapper_waves.fst -a $(CONF)wrapper.gtkw
 else
 	@echo ">>> Verilating WrapperTop..."
 	@echo

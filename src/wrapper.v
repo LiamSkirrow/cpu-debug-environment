@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // top level wrapper where we instantiate the CPU submodule project and drive it
 
 module WrapperTop(
@@ -6,10 +8,10 @@ module WrapperTop(
     input sw1,
     input sw2,
     input sw3,
-    output led0,
-    output led1,
-    output led2,
-    output led3
+    output reg led0,
+    output reg led1,
+    output reg led2,
+    output reg led3
 );
 
 // FSM
@@ -30,8 +32,26 @@ wire [31:0] rv_dmem_addr_bus;
 Top toprv(
     .CK_REF(CLK100MHZ), .RST_N(reset), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
     .MEM_ACCESS_DATA_IN_BUS(rv_dmem_data_in_bus), .MEM_ACCESS_READ_WRN(rv_read_wrn_strobe), 
-    .MEM_ACCESS_DATA_OUT_BUS(rv_dmem_data_out_bus), .MEM_ACCESS_ADDRESS_BUS(rv_dmem_addr_bus),
+    .MEM_ACCESS_DATA_OUT_BUS(rv_dmem_data_out_bus), .MEM_ACCESS_ADDRESS_BUS(rv_dmem_addr_bus)
 );
+
+// address decoder to drive LEDs
+always @(*) begin
+    case (rv_dmem_addr_bus[1:0])
+        2'b00 : begin
+            led0 = rv_dmem_data_out_bus[0];
+        end
+        2'b01 : begin
+            led1 = rv_dmem_data_out_bus[0];
+        end
+        2'b10 : begin
+            led2 = rv_dmem_data_out_bus[0];
+        end
+        2'b11 : begin
+            led3 = rv_dmem_data_out_bus[0];
+        end
+    endcase
+end
 
 // FSM to bring up and drive the CPU
 always @(posedge CLK100MHZ) begin
@@ -76,6 +96,5 @@ always @(posedge CLK100MHZ) begin
         end
     end
 end
-
 
 endmodule
