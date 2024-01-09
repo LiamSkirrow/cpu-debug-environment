@@ -8,10 +8,10 @@ module WrapperTop(
     input sw1,
     input sw2,
     input sw3,
-    output reg led0,
-    output reg led1,
-    output reg led2,
-    output reg led3
+    output led0,
+    output led1,
+    output led2,
+    output led3
 );
 
 // FSM
@@ -19,7 +19,7 @@ reg reset;
 
 // register file
 reg [31:0] dmem_register_file [0:9];
-reg [31:0] imem_register_file [0:9];
+wire [31:0] imem_register_file [0:9];
 
 wire [31:0] rv_imem_data_bus;
 wire [31:0] rv_imem_addr_bus;
@@ -36,22 +36,10 @@ Top toprv(
 );
 
 // address decoder to drive LEDs
-always @(*) begin
-    case (rv_dmem_addr_bus[1:0])
-        2'b00 : begin
-            led0 = rv_dmem_data_out_bus[0];
-        end
-        2'b01 : begin
-            led1 = rv_dmem_data_out_bus[0];
-        end
-        2'b10 : begin
-            led2 = rv_dmem_data_out_bus[0];
-        end
-        2'b11 : begin
-            led3 = rv_dmem_data_out_bus[0];
-        end
-    endcase
-end
+assign led0 = (rv_dmem_data_out_bus[1:0] == 2'b00);
+assign led1 = (rv_dmem_data_out_bus[1:0] == 2'b01);
+assign led2 = (rv_dmem_data_out_bus[1:0] == 2'b10);
+assign led3 = (rv_dmem_data_out_bus[1:0] == 2'b11);
 
 // FSM to bring up and drive the CPU
 always @(posedge CLK100MHZ) begin
@@ -64,11 +52,11 @@ always @(posedge CLK100MHZ) begin
 end
 
 // Temporary static registers to act as imem
-always @(*) begin
-    imem_register_file[0] = 32'b000000000001_01010_000_01010_0010011;   // addi r10, r10, 1
-    imem_register_file[1] = 32'b0000000_00000_01010_010_00001_0100011;  // sw r10, r0, 1
-    imem_register_file[2] = 32'b00000000000000000000_00000_1101111;      // jal r0, 0
-end
+// always @(*) begin
+assign imem_register_file[0] = 32'b000000000001_01010_000_01010_0010011;   // addi r10, r10, 1
+assign imem_register_file[1] = 32'b0000000_01010_00000_010_00001_0100011;  // sw r10, r0, 1
+assign imem_register_file[2] = 32'b00000000000000000000_00000_1101111;     // jal r0, 0
+// end
 
 assign rv_imem_data_bus = imem_register_file[rv_imem_addr_bus];
 
