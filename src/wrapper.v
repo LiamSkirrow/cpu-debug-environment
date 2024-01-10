@@ -16,6 +16,8 @@ module WrapperTop(
 
 // FSM
 reg reset;
+reg halt;
+reg [4:0] count;
 
 // register file
 reg [31:0] dmem_register_file [0:9];
@@ -30,7 +32,7 @@ wire [31:0] rv_dmem_addr_bus;
 
 // instantiate the riscv CPU
 Top toprv(
-    .CK_REF(CLK100MHZ), .RST_N(reset), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
+    .CK_REF(CLK100MHZ), .RST_N(reset), .HALT(halt), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
     .MEM_ACCESS_DATA_IN_BUS(rv_dmem_data_in_bus), .MEM_ACCESS_READ_WRN(rv_read_wrn_strobe), 
     .MEM_ACCESS_DATA_OUT_BUS(rv_dmem_data_out_bus), .MEM_ACCESS_ADDRESS_BUS(rv_dmem_addr_bus)
 );
@@ -45,9 +47,20 @@ assign led3 = (rv_dmem_data_out_bus[1:0] == 2'b11);
 always @(posedge CLK100MHZ) begin
     if(sw0) begin
         reset <= 1'b0;
+        count <= 4'h0;
     end
     else begin
         reset <= 1'b1;
+        count <= count + 1'b1;
+    end
+end
+
+always @(posedge count) begin
+    if(count >= 16 && count <= 24) begin
+        halt <= 1'b1;
+    end
+    else begin
+        halt <= 1'b0;
     end
 end
 

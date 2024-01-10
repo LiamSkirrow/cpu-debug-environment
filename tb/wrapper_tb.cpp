@@ -6,7 +6,7 @@
 #include "../obj_dir/Vwrapper___024root.h"
 #include "../obj_dir/Vwrapper__Syms.h"
 
-#define MAX_SIM_TIME 100
+#define MAX_SIM_TIME 200
 #define CODE_MEM_SIZE 100
 #define DATA_MEM_SIZE 100
 vluint64_t sim_time = 0;
