@@ -19,7 +19,7 @@ module WrapperTop(
 );
 
 // FSM
-reg reset;
+reg reset_n;
 wire halt;
 reg [31:0] count;
 
@@ -38,7 +38,7 @@ wire [31:0] rv_dmem_addr_bus;
 
 // instantiate the riscv CPU
 Top toprv(
-    .CK_REF(CLK100MHZ), .RST_N(reset), .HALT(tick), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
+    .CK_REF(CLK100MHZ), .RST_N(reset_n), .HALT(tick), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
     .MEM_ACCESS_DATA_IN_BUS(rv_dmem_data_in_bus), .MEM_ACCESS_READ_WRN(rv_read_wrn_strobe), 
     .MEM_ACCESS_DATA_OUT_BUS(rv_dmem_data_out_bus), .MEM_ACCESS_ADDRESS_BUS(rv_dmem_addr_bus)
 );
@@ -52,18 +52,18 @@ assign led3 = (rv_dmem_data_out_bus[1:0] == 2'b11);
 // FSM to bring up and drive the CPU
 always @(posedge CLK100MHZ) begin
     if(sw0) begin
-        reset <= 1'b0;
+        reset_n <= 1'b0;
         count <= 32'd0;
     end
     else begin
-        reset <= 1'b1;
-        count <= (count == 32'd10_000_000) ? 32'd0 : count + 1'b1;
+        reset_n <= 1'b1;
+        count <= (count == 32'd10) ? 32'd0 : count + 1'b1;
     end
 end
 
 wire tick;
 // active low tick, acts as a slow halt pulse
-assign tick = !(count == 32'd50_000_000);
+assign tick = !(count == 32'd10);
 
 // TODO: create a timer that overflows every .5 seconds and hold the CPU in halt until then
 
@@ -91,7 +91,7 @@ assign rv_dmem_data_in_bus = dmem_register_file[rv_dmem_addr_bus];
 
 always @(posedge CLK100MHZ) begin
     if(sw0) begin
-        // reset all registers to zero... 
+        // reset_n all registers to zero... 
         dmem_register_file[0]  <= 32'd0; 
         dmem_register_file[1]  <= 32'd0; 
         dmem_register_file[2]  <= 32'd0; 
