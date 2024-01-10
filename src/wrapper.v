@@ -4,6 +4,10 @@
 
 module WrapperTop(
     input CLK100MHZ,
+    input btn0,
+    input btn1,
+    input btn2,
+    input btn3,
     input sw0,
     input sw1,
     input sw2,
@@ -16,8 +20,10 @@ module WrapperTop(
 
 // FSM
 reg reset;
-reg halt;
+wire halt;
 reg [4:0] count;
+
+assign halt = btn0;
 
 // register file
 reg [31:0] dmem_register_file [0:9];
@@ -55,14 +61,14 @@ always @(posedge CLK100MHZ) begin
     end
 end
 
-always @(posedge count) begin
-    if(count >= 16 && count <= 24) begin
-        halt <= 1'b1;
-    end
-    else begin
-        halt <= 1'b0;
-    end
-end
+// always @(posedge count) begin
+//     if(count >= 16 && count <= 24) begin
+//         halt <= 1'b1;
+//     end
+//     else begin
+//         halt <= 1'b0;
+//     end
+// end
 
 // Temporary static registers to act as imem
 // always @(*) begin
