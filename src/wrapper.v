@@ -12,18 +12,23 @@ module WrapperTop(
     input sw1,
     input sw2,
     input sw3,
-    output led0,
-    output led1,
-    output led2,
-    output led3
+    output led0_out,
+    output led1_out,
+    output led2_out,
+    output led3_out
 );
 
 // FSM
 reg reset_n;
 wire halt;
+reg halt_reg;
 reg [31:0] count;
+reg led0_reg;
+reg led1_reg;
+reg led2_reg;
+reg led3_reg;
 
-assign halt = btn0;
+assign halt = halt_reg;
 
 // register file
 reg [31:0] dmem_register_file [0:9];
@@ -38,16 +43,51 @@ wire [31:0] rv_dmem_addr_bus;
 
 // instantiate the riscv CPU
 Top toprv(
-    .CK_REF(CLK100MHZ), .RST_N(reset_n), .HALT(tick), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
+    .CK_REF(CLK100MHZ), .RST_N(reset_n), .HALT(halt), .INST_MEM_DATA_BUS(rv_imem_data_bus), .INST_MEM_ADDRESS_BUS(rv_imem_addr_bus), 
     .MEM_ACCESS_DATA_IN_BUS(rv_dmem_data_in_bus), .MEM_ACCESS_READ_WRN(rv_read_wrn_strobe), 
     .MEM_ACCESS_DATA_OUT_BUS(rv_dmem_data_out_bus), .MEM_ACCESS_ADDRESS_BUS(rv_dmem_addr_bus)
 );
 
 // address decoder to drive LEDs
-assign led0 = (rv_dmem_data_out_bus[1:0] == 2'b00);
-assign led1 = (rv_dmem_data_out_bus[1:0] == 2'b01);
-assign led2 = (rv_dmem_data_out_bus[1:0] == 2'b10);
-assign led3 = (rv_dmem_data_out_bus[1:0] == 2'b11);
+assign led0_out = led0_reg;
+assign led1_out = led1_reg;
+assign led2_out = led2_reg;
+assign led3_out = led3_reg;
+
+always @(*) begin
+    if(rv_dmem_addr_bus == 32'h0000_0001) begin
+        if(rv_dmem_data_out_bus[1:0] == 2'b00) begin
+            led0_reg = 1'b1;
+            led1_reg = 1'b0;
+            led2_reg = 1'b0;
+            led3_reg = 1'b0;
+        end
+        else if(rv_dmem_data_out_bus[1:0] == 2'b01) begin
+            led0_reg = 1'b0;
+            led1_reg = 1'b1;
+            led2_reg = 1'b0;
+            led3_reg = 1'b0;
+        end
+        else if(rv_dmem_data_out_bus[1:0] == 2'b10) begin
+            led0_reg = 1'b0;
+            led1_reg = 1'b0;
+            led2_reg = 1'b1;
+            led3_reg = 1'b0;
+        end
+        else if(rv_dmem_data_out_bus[1:0] == 2'b11) begin
+            led0_reg = 1'b0;
+            led1_reg = 1'b0;
+            led2_reg = 1'b0;
+            led3_reg = 1'b1;
+        end
+        else begin
+            led0_reg = 1'b0;
+            led1_reg = 1'b0;
+            led2_reg = 1'b0;
+            led3_reg = 1'b0;
+        end
+    end
+end
 
 // FSM to bring up and drive the CPU
 always @(posedge CLK100MHZ) begin
@@ -63,18 +103,19 @@ end
 
 wire tick;
 // active low tick, acts as a slow halt pulse
-assign tick = !(count == 32'd10);
+// assign tick = !(count == 32'd10);
 
 // TODO: create a timer that overflows every .5 seconds and hold the CPU in halt until then
 
-// always @(posedge count) begin
-//     if(count >= 16 && count <= 24) begin
-//         halt <= 1'b1;
-//     end
-//     else begin
-//         halt <= 1'b0;
-//     end
-// end
+
+always @(posedge count[0]) begin
+    if(count >= 16 && count <= 24) begin
+        halt_reg <= 1'b0;
+    end
+    else begin
+        halt_reg <= 1'b0;
+    end
+end
 
 // Temporary static registers to act as imem
 // always @(*) begin
