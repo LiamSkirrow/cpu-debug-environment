@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Fri Jan 19 22:19:21 2024
+[*] Fri Jan 19 22:33:07 2024
 [*]
 [dumpfile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/wrapper_waves.fst"
-[dumpfile_mtime] "Fri Jan 19 22:04:25 2024"
-[dumpfile_size] 9075
+[dumpfile_mtime] "Fri Jan 19 22:30:19 2024"
+[dumpfile_size] 12853
 [savefile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/config-files/wrapper.gtkw"
 [timestart] 0
 [size] 1848 1006
@@ -22,6 +22,7 @@
 @28
 TOP.WrapperTop.CLK100MHZ
 TOP.WrapperTop.reset_n
+TOP.WrapperTop.toprv.HALT
 TOP.WrapperTop.halt
 TOP.WrapperTop.btn0
 TOP.WrapperTop.btn1
@@ -70,7 +71,6 @@ TOP.WrapperTop.toprv.inst_alu.A_reg[31:0]
 TOP.WrapperTop.toprv.inst_alu.B_reg[31:0]
 TOP.WrapperTop.toprv.inst_alu.OP_VAL_reg[3:0]
 TOP.WrapperTop.toprv.inst_alu.OUT[31:0]
-@23
 TOP.WrapperTop.toprv.inst_alu.OUT_reg[32:0]
 @1000200
 -alu
@@ -78,6 +78,10 @@ TOP.WrapperTop.toprv.inst_alu.OUT_reg[32:0]
 -mem access
 @28
 TOP.WrapperTop.toprv.reg_wb_data_type_ff_ff[2:0]
+@23
+TOP.WrapperTop.dmem_register_file[0][31:0]
+TOP.WrapperTop.dmem_register_file[1][31:0]
+TOP.WrapperTop.dmem_register_file[2][31:0]
 @1000200
 -mem access
 @800200
@@ -86,6 +90,10 @@ TOP.WrapperTop.toprv.reg_wb_data_type_ff_ff[2:0]
 TOP.WrapperTop.toprv.reg_wb_flag_ff
 @22
 TOP.WrapperTop.toprv.inst_reg_file.register_file[10][31:0]
+TOP.WrapperTop.toprv.inst_reg_file.register_file[11][31:0]
+TOP.WrapperTop.toprv.inst_reg_file.register_file[12][31:0]
+TOP.WrapperTop.toprv.inst_reg_file.register_file[13][31:0]
+TOP.WrapperTop.toprv.inst_reg_file.register_file[14][31:0]
 @1000200
 -register wb
 @800200
