@@ -1,22 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Jan 17 23:05:59 2024
+[*] Fri Jan 19 22:19:21 2024
 [*]
 [dumpfile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/wrapper_waves.fst"
-[dumpfile_mtime] "Wed Jan 17 22:46:01 2024"
-[dumpfile_size] 14542
+[dumpfile_mtime] "Fri Jan 19 22:04:25 2024"
+[dumpfile_size] 9075
 [savefile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/config-files/wrapper.gtkw"
 [timestart] 0
 [size] 1848 1006
 [pos] -1 -1
-*-4.873559 12 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-3.280034 12 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.WrapperTop.
 [treeopen] TOP.WrapperTop.toprv.
 [sst_width] 339
-[signals_width] 330
+[signals_width] 346
 [sst_expanded] 1
-[sst_vpaned_height] 252
+[sst_vpaned_height] 277
 @800200
 -wrapper
 @28
@@ -40,8 +40,6 @@ TOP.WrapperTop.dmem_register_file[2][31:0]
 @800200
 -toprv
 @22
-TOP.WrapperTop.toprv.INST_MEM_ADDRESS_BUS[31:0]
-TOP.WrapperTop.toprv.INST_MEM_DATA_BUS[31:0]
 TOP.WrapperTop.toprv.MEM_ACCESS_ADDRESS_BUS[15:0]
 TOP.WrapperTop.toprv.MEM_ACCESS_DATA_IN_BUS[31:0]
 TOP.WrapperTop.toprv.MEM_ACCESS_DATA_OUT_BUS[31:0]
@@ -49,6 +47,47 @@ TOP.WrapperTop.toprv.MEM_ACCESS_DATA_OUT_BUS[31:0]
 TOP.WrapperTop.toprv.MEM_ACCESS_READ_WRN
 @1000200
 -toprv
+@200
+-PIPELINE STAGES BELOW
+@800200
+-instruction fetch
+@22
+TOP.WrapperTop.toprv.INST_MEM_ADDRESS_BUS[31:0]
+TOP.WrapperTop.toprv.INST_MEM_DATA_BUS[31:0]
+TOP.WrapperTop.toprv.instruction_pointer_reg[31:0]
+@1000200
+-instruction fetch
+@800200
+-decode
+@22
+TOP.WrapperTop.toprv.rd_reg_offset_ff_ff_ff[4:0]
+@1000200
+-decode
+@800200
+-alu
+@22
+TOP.WrapperTop.toprv.inst_alu.A_reg[31:0]
+TOP.WrapperTop.toprv.inst_alu.B_reg[31:0]
+TOP.WrapperTop.toprv.inst_alu.OP_VAL_reg[3:0]
+TOP.WrapperTop.toprv.inst_alu.OUT[31:0]
+@23
+TOP.WrapperTop.toprv.inst_alu.OUT_reg[32:0]
+@1000200
+-alu
+@800200
+-mem access
+@28
+TOP.WrapperTop.toprv.reg_wb_data_type_ff_ff[2:0]
+@1000200
+-mem access
+@800200
+-register wb
+@28
+TOP.WrapperTop.toprv.reg_wb_flag_ff
+@22
+TOP.WrapperTop.toprv.inst_reg_file.register_file[10][31:0]
+@1000200
+-register wb
 @800200
 -reg file
 @22
@@ -65,5 +104,16 @@ TOP.WrapperTop.toprv.inst_reg_file.register_file[9][31:0]
 TOP.WrapperTop.toprv.inst_reg_file.register_file[10][31:0]
 @1000200
 -reg file
+@800200
+-ALU
+@28
+TOP.WrapperTop.toprv.inst_alu.ALU_EN
+@22
+TOP.WrapperTop.toprv.inst_alu.A[31:0]
+TOP.WrapperTop.toprv.inst_alu.B[31:0]
+TOP.WrapperTop.toprv.inst_alu.OP_VAL[3:0]
+TOP.WrapperTop.toprv.inst_alu.OUT[31:0]
+@1000200
+-ALU
 [pattern_trace] 1
 [pattern_trace] 0

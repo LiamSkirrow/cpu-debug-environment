@@ -18,6 +18,42 @@ module WrapperTop(
     output led3_out
 );
 
+
+
+
+
+
+
+
+// TODO: ***************************************************
+// TODO: ***************************************************
+
+
+// I need to start simpler I reckon. Let's simulate one instruction at a time...
+// start off with the addi instruction and simply pass in all zeros for the instructions after that...
+// make sure each pipeline stage is working as intended... 
+
+// maybe hack this together in a side branch so that I can return to this version of wrapper.v if need be...
+
+// alternatively... it may be useful to now start creating some additional tests each in their own TB, each test
+// focusing on one different instruction... with different tests being run like so -> 'make wrapper TEST=addi_test' etc
+
+
+
+// TODO: ***************************************************
+// TODO: ***************************************************
+
+
+
+
+
+
+
+
+
+
+
+
 // FSM
 reg reset_n;
 wire halt;
@@ -32,7 +68,7 @@ assign halt = halt_reg;
 
 // register file
 reg [31:0] dmem_register_file [0:9];
-wire [31:0] imem_register_file [0:9];
+wire [31:0] imem_register_file [0:19];
 
 wire [31:0] rv_imem_data_bus;
 wire [31:0] rv_imem_addr_bus;
@@ -87,6 +123,12 @@ always @(*) begin
             led3_reg = 1'b0;
         end
     end
+    else begin
+        led0_reg = 1'b0;
+        led1_reg = 1'b0;
+        led2_reg = 1'b0;
+        led3_reg = 1'b0;
+    end
 end
 
 // FSM to bring up and drive the CPU
@@ -119,9 +161,22 @@ end
 
 // Temporary static registers to act as imem
 // always @(*) begin
-assign imem_register_file[0] = 32'b000000000001_01010_000_01010_0010011;   // addi r10, r10, 1
-assign imem_register_file[1] = 32'b0000000_01010_00000_010_00001_0100011;  // sw r10, r0, 1
-assign imem_register_file[2] = 32'b00000000000000000000_00000_1101111;     // jal r0, 0
+assign imem_register_file[0]  = 32'b000000000001_01010_000_01010_0010011;   // addi r10, r10, 1
+assign imem_register_file[1]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[2]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[3]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[4]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[5]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[6]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[7]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[8]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[9]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[10] = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+
+
+// assign imem_register_file[1] = 32'b000000000000_00000_000_00000_0010011;   // addi r0, r0, 0 (NOP)
+// assign imem_register_file[2] = 32'b0000000_01010_00000_010_00001_0100011;  // sw r10, r0, 1
+// assign imem_register_file[3] = 32'b00000000000000000000_00000_1101111;     // jal r0, 0
 // end
 
 assign rv_imem_data_bus = imem_register_file[rv_imem_addr_bus];
