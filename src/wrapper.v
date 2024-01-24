@@ -18,47 +18,11 @@ module WrapperTop(
     output led3_out
 );
 
-
-
-
-
-
-
-
-// TODO: ***************************************************
-// TODO: ***************************************************
-
-
-// I need to start simpler I reckon. Let's simulate one instruction at a time...
-// start off with the addi instruction and simply pass in all zeros for the instructions after that...
-// make sure each pipeline stage is working as intended... 
-
-// maybe hack this together in a side branch so that I can return to this version of wrapper.v if need be...
-
-// alternatively... it may be useful to now start creating some additional tests each in their own TB, each test
-// focusing on one different instruction... with different tests being run like so -> 'make wrapper TEST=addi_test' etc
-
-
-
-// TODO: ***************************************************
-// TODO: ***************************************************
-
-
-
-
-
-
-
-
-
-
-
-
 // FSM
 reg reset_n;
 wire halt;
 reg halt_reg;
-reg [31:0] count;
+reg [4:0] count;
 reg led0_reg;
 reg led1_reg;
 reg led2_reg;
@@ -135,11 +99,11 @@ end
 always @(posedge CLK100MHZ) begin
     if(sw0) begin
         reset_n <= 1'b0;
-        count <= 32'd0;
+        count <= 5'd0;
     end
     else begin
         reset_n <= 1'b1;
-        count <= (count == 32'd10) ? 32'd0 : count + 1'b1;
+        count <= count + 5'b0_0001;
     end
 end
 
@@ -148,7 +112,6 @@ wire tick;
 // assign tick = !(count == 32'd10);
 
 // TODO: create a timer that overflows every .5 seconds and hold the CPU in halt until then
-
 
 always @(posedge count[0]) begin
     if(count >= 16 && count <= 24) begin

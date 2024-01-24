@@ -12,14 +12,14 @@ wrapper:
 ifeq ($(SYNTAX), 1)
 	@echo ">>> Syntax checking module: WrapperTop"
 	@echo
-	$(CC) -Wno-fatal --cc $(SRC)wrapper.v $(TARGET_SRC)top.v $(TARGET_SRC)alu.v $(TARGET_SRC)registerfile.v --lint-only $(ARGS)
+	$(CC) -Wno-fatal --cc $(SRC)wrapper.v $(TARGET_SRC)top.v $(TARGET_SRC)instructiondecoder.v $(TARGET_SRC)alu.v $(TARGET_SRC)registerfile.v --lint-only $(ARGS)
 else
 ifeq ($(WAVES), 1)
 	gtkwave wrapper_waves.fst -a $(CONF)wrapper.gtkw
 else
 	@echo ">>> Verilating WrapperTop..."
 	@echo
-	$(CC) -Wno-fatal --trace-fst --cc $(SRC)wrapper.v $(TARGET_SRC)top.v $(TARGET_SRC)alu.v $(TARGET_SRC)registerfile.v --exe $(TB)$@_tb.cpp $(ARGS)
+	$(CC) -Wno-fatal --trace-fst --cc $(SRC)wrapper.v $(TARGET_SRC)top.v $(TARGET_SRC)instructiondecoder.v $(TARGET_SRC)alu.v $(TARGET_SRC)registerfile.v --exe $(TB)$@_tb.cpp $(ARGS)
 	make -C obj_dir -f Vwrapper.mk Vwrapper
 	@echo ">>> Simulating WrapperTop..."
 	@echo
