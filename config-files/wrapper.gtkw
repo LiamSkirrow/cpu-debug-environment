@@ -1,21 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Thu Jan 25 14:31:27 2024
+[*] Fri Jan 26 15:21:33 2024
 [*]
 [dumpfile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/wrapper_waves.fst"
-[dumpfile_mtime] "Thu Jan 25 14:26:53 2024"
-[dumpfile_size] 21837
+[dumpfile_mtime] "Fri Jan 26 15:18:59 2024"
+[dumpfile_size] 17919
 [savefile] "/home/liam.skirrow/Documents/code/cpu-debug-environment/config-files/wrapper.gtkw"
 [timestart] 0
 [size] 1985 1127
 [pos] -1 -1
-*-5.080034 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-5.080034 10 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.WrapperTop.
 [treeopen] TOP.WrapperTop.toprv.
 [treeopen] TOP.WrapperTop.toprv.inst_reg_file.
 [sst_width] 339
-[signals_width] 374
+[signals_width] 409
 [sst_expanded] 1
 [sst_vpaned_height] 320
 @800200
@@ -51,13 +51,18 @@ TOP.WrapperTop.toprv.MEM_ACCESS_READ_WRN
 -toprv
 @22
 TOP.WrapperTop.toprv.rs2_data_out_next[31:0]
-@28
-TOP.WrapperTop.toprv.inst_instruction_decoder.rs1_register_in_flight_one_cycle
-@23
 TOP.WrapperTop.toprv.inst_instruction_decoder.rs1_data_out[31:0]
-@22
-TOP.WrapperTop.toprv.inst_instruction_decoder.rs1_data_out_1c[31:0]
 TOP.WrapperTop.toprv.inst_instruction_decoder.alu_input_a_reg[31:0]
+@23
+TOP.WrapperTop.toprv.alu_out_reg_1c[31:0]
+TOP.WrapperTop.toprv.alu_out_reg_2c[31:0]
+@28
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs1_in_flight_one_cycle
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs1_in_flight_two_cycle
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs1_in_flight_three_cycle
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs2_in_flight_one_cycle
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs2_in_flight_two_cycle
+TOP.WrapperTop.toprv.inst_instruction_decoder.rd_register_rs2_in_flight_three_cycle
 @200
 -PIPELINE STAGES BELOW
 @800200
