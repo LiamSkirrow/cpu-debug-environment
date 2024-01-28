@@ -128,14 +128,15 @@ assign imem_register_file[1]  = 32'b000000000001_01010_000_01011_0010011;   // a
 assign imem_register_file[2]  = 32'b000000000001_01011_000_01100_0010011;   // addi r12, r11, 1
 assign imem_register_file[3]  = 32'b000000001010_01011_000_01101_0010011;   // addi r13, r11, 10
 assign imem_register_file[4]  = 32'b000000001011_01011_000_01110_0010011;   // addi r14, r11, 11
-assign imem_register_file[5]  = 32'b0000000_01010_00000_010_00001_0100011;  // sw   r10, r0, 1
-assign imem_register_file[6]  = 32'b00000000000000000000_10100_1101111;     // jal  r20, 0
-assign imem_register_file[7]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
-assign imem_register_file[8]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[5]  = 32'b0000000_01110_01101_000_10110_0110011;  // add  r22, r14, r13
+assign imem_register_file[6]  = 32'b0000000_01010_00000_010_00001_0100011;  // sw   r10, r0, 1
+assign imem_register_file[7]  = 32'b00000000000000000000_10100_1101111;     // jal  r20, 0
+assign imem_register_file[8]  = 32'b000000001011_01011_000_01110_0010011;   // addi r14, r11, 11
 assign imem_register_file[9]  = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
 assign imem_register_file[10] = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
 assign imem_register_file[11] = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
 assign imem_register_file[12] = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
+assign imem_register_file[13] = 32'b000000000000_00000_000_00000_0000000;   // null effect (de facto NOP)
 
 assign rv_imem_data_bus = imem_register_file[rv_imem_addr_bus];
 
